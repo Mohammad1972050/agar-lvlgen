@@ -18,6 +18,7 @@ module.exports = {
 	datr: "datr",
 	xs: "xs",
 	
+	// Optional
 	name: "agar-lvlgen",
 	
 	// Advanced
@@ -28,12 +29,21 @@ module.exports = {
 	statusDelay: 1000
 }
 ```
-In order to make it work you only need to replace ```c_user```, ```datr``` and ```xs```.
+In order to make it work you only need to replace ```c_user```, ```datr``` and ```xs``` with your cookies.
+All other options are optional.
 
 ## Cookies
 ###### How to get your Facebook token:
 1. Get this extension: http://www.editthiscookie.com/
 2. Go to facebook.com, click on the cookie and copy the values of datr and so on.
+
+## Planned features
+* Easier config
+* More options
+* Better AI
+* GUI
+
+[Submit suggestions/issues here](../../issues)
 
 ## License
 [MIT](/LICENSE.md)
