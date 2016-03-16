@@ -7,7 +7,7 @@ module.exports = {
 	name: "agar-lvlgen",
 	
 	// Advanced
-	botLimit: 20,
+	botLimit: 200,
 	spawnDelay: 100,
 	servers: {ffa: true, teams: false, experimental: true, party: true},
 	regions: ["BR-Brazil", "CN-China", "EU-London", "JP-Tokyo", "RU-Russia", "SG-Singapore", "TK-Turkey", "US-Atlanta"],
