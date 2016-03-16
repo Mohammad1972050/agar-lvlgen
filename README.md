@@ -28,6 +28,7 @@ module.exports = {
 	statusDelay: 1000
 }
 ```
+In order to make it work you only need to replace ```c_user```, ```datr``` and ```xs```.
 
 ## Cookies
 ###### How to get your Facebook token:
