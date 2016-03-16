@@ -1,5 +1,6 @@
 
 // Made by Cr4xy
+// https://www.youtube.com/channel/UC1CJCNc6rrtjJzxiqYN97aQ
 
 var agarClient = require("agario-client")
 	config = require("./config.js"),
@@ -22,7 +23,7 @@ Array.prototype.remove = function(element) {
 	if (this.contains(element)) this.splice(this.indexOf(element), 1);
 }
 
-// Check if no mode is enabled
+// Check if no mode/server is enabled
 
 !function() {
 	var serverFound = false,
@@ -89,7 +90,7 @@ function start(server, key) {
 	myClient.auth_token = token;
 	var myBotObj = {spawned: false, client: myClient};
 	myClient.on('disconnect', function() {
-		bots.remove(myClient);
+		bots.remove(myBotObj);
 		clearInterval(myClient.sendInterval);
 		myClient = null;
 	});
@@ -97,6 +98,10 @@ function start(server, key) {
 		preventCrash();
 	});
 	myClient.on('connected', function() {
+		if (bots.length + 1 >= config.botLimit) {
+			myClient.disconnect();
+			return;
+		}
 		bots.add(myBotObj);
 		myClient.spawn(STATIC_NAME);
 		myClient.sendInterval = setInterval(function() {
@@ -116,7 +121,7 @@ function start(server, key) {
 				if (nearest && nearestDist < dist) continue;                  // Skip cells far away
 				if (nearest && nearest.size > 20 && cell.size < 20) continue; // Skip food when found a player or ejected mass
 				
-				if (cell.size > 20 && cell.size * 4 < player.size) continue;  // Skip cells smaller than 4th or something
+				if (cell.size > 20 && cell.size * 4 < player.size) continue;  // Skip players smaller than 4th or something
 				
 				nearest = cell;
 				nearestDist = dist;
