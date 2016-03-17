@@ -34,10 +34,25 @@ Array.prototype.remove = function(element) {
 	process.exit();
 }();
 
-account.requestFBToken(function(tkn, info) {
-    token = tkn;
-	console.log("Got token:", token);
-});
+// Get token
+!function() {
+	var requestTries = 0;
+	var requestToken = function() {
+		account.requestFBToken(function(tkn, info) {
+			token = tkn;
+			if (!token) {
+				if (requestTries++ >= 5) {
+					console.log("Got no token multiple times, please check your cookies.");
+					process.exit();
+				}
+				console.log("Got no token! Trying again... (Attempt " + requestTries + ")");
+				requestToken();
+			} else
+				console.log("Got token:", token);
+		});
+	}
+	requestToken();
+}();
 
 var regionCounter = 0;
 
@@ -142,6 +157,7 @@ function start(server, key) {
 }
 
 setInterval(function() {
+	if (!token) return;
 	var totalScore = 0;
 	var spawnedCount = 0;
 	var highestScore = 0;
