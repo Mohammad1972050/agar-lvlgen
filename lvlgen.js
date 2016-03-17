@@ -144,11 +144,13 @@ function start(server, key) {
 setInterval(function() {
 	var totalScore = 0;
 	var spawnedCount = 0;
-	for (var i in bots) bots[i].spawned && (spawnedCount++, totalScore += bots[i].client.score);
-	var avgScore = (totalScore / Math.max(1, spawnedCount)).toFixed(0);
+	var highestScore = 0;
+	for (var i in bots) bots[i].spawned && (spawnedCount++, totalScore += bots[i].client.score, highestScore = Math.max(highestScore, bots[i].client.score));
+	var avgScore = parseInt((totalScore / Math.max(1, spawnedCount)).toFixed(0));
 	debugObj.connected = bots.length;
 	debugObj.spawned = spawnedCount;
 	debugObj.totalScore = totalScore;
 	debugObj.avgScore = avgScore;
+	debugObj.highest = highestScore;
 	console.log(debugObj);
 }, config.statusDelay);
