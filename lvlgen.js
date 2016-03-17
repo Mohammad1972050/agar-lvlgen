@@ -98,7 +98,7 @@ function start(server, key) {
 		preventCrash();
 	});
 	myClient.on('connected', function() {
-		if (bots.length + 1 >= config.botLimit) {
+		if (bots.length >= config.botLimit) {
 			myClient.disconnect();
 			return;
 		}
