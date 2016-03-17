@@ -7,9 +7,10 @@ var agarClient = require("agario-client")
 	token = null,
 	account = new agarClient.Account(),
 	STATIC_NAME = config.name,
-	BOT_LIMIT = config.botLimit,
 	debugObj = {},
 	regions = config.regions;
+
+var VERSION = 0.9;
 
 account.c_user = config.c_user;
 account.datr = config.datr;
@@ -34,25 +35,49 @@ Array.prototype.remove = function(element) {
 	process.exit();
 }();
 
-// Get token
+
 !function() {
-	var requestTries = 0;
-	var requestToken = function() {
-		account.requestFBToken(function(tkn, info) {
-			token = tkn;
-			if (!token) {
-				if (requestTries++ >= 5) {
-					console.log("Got no token multiple times, please check your cookies.");
-					process.exit();
-				}
-				console.log("Got no token! Trying again... (Attempt " + requestTries + ")");
-				requestToken();
-			} else
-				console.log("Got token:", token);
+	require("https").get('https://raw.githubusercontent.com/Cr4xy/agar-lvlgen/master/version', (res) => {
+		res.on('data', function (bytes) {
+			var fetched_version = bytes.toString();
+			
+			console.log("########################\n\nUpdate-Check\n\n");
+			
+			if (!isNaN(fetched_version) && isFinite(fetched_version)) {
+				if (VERSION < fetched_version)
+					console.log("An update (" + fetched_version + ") is available!\nPlease update the script at https://github.com/Cr4xy/agar-lvlgen");
+				else
+					console.log("No new version available.");
+			} else {
+				console.log("Unable to fetch new version.");
+			}
+			
+			console.log("\n\n########################\n\n");
+			
 		});
-	}
-	requestToken();
+		//res.resume();
+	});
 }();
+
+// Get token
+var requestTries = 0;
+var requestToken = function() {
+	account.requestFBToken(function(tkn, info) {
+		token = tkn;
+		if (!token) {
+			if (requestTries++ >= 5) {
+				console.log("Got no token multiple times, please check your cookies.");
+				process.exit();
+			}
+			console.log("Got no token! Trying again... (Attempt " + requestTries + ")");
+			requestToken();
+		} else {
+			console.log("Got token:", token);
+			requestTries = 0;
+		}
+	});
+}
+requestToken();
 
 var regionCounter = 0;
 
@@ -155,6 +180,10 @@ function start(server, key) {
 	});
 	myClient.connect("ws://" + server, key);
 }
+
+setInterval(function() {
+	if (Date.now() > account.token_expire) requestToken();
+}, 10000);
 
 setInterval(function() {
 	if (!token) return;
