@@ -10,7 +10,7 @@ var agarClient = require("agario-client")
 	debugObj = {},
 	regions = config.regions;
 
-var VERSION = 0.9;
+var VERSION = 0.91;
 
 account.c_user = config.c_user;
 account.datr = config.datr;
