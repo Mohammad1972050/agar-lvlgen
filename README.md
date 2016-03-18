@@ -38,7 +38,7 @@ All other options are optional.
 2. Go to facebook.com, click on the cookie and copy the values of datr and so on.
 
 ## Planned features
-* G+ Account support
+* G+ account support
 * Easier config
 * More options
 * Better AI
