@@ -25,7 +25,6 @@ Array.prototype.remove = function(element) {
 }
 
 // Check if no mode/server is enabled
-
 !function() {
 	var serverFound = false,
 		regionFound = config.regions.length > 0;
@@ -35,7 +34,7 @@ Array.prototype.remove = function(element) {
 	process.exit();
 }();
 
-
+// Check for updates
 !function() {
 	require("https").get('https://raw.githubusercontent.com/Cr4xy/agar-lvlgen/master/version', (res) => {
 		res.on('data', function (bytes) {
@@ -80,7 +79,6 @@ var requestToken = function() {
 requestToken();
 
 var regionCounter = 0;
-
 function getRegion() {
 	regionCounter++;
 	if (regionCounter >= regions.length) regionCounter = 0;
@@ -91,7 +89,8 @@ function getServerOptions() {
 	return {region: getRegion()};
 }
 
-var spawnTask = setInterval(function() {	
+var spawnTask;
+function grabServers() {
 	if (token == null) return;
 	
 	function callBack(e) {
@@ -120,7 +119,10 @@ var spawnTask = setInterval(function() {
 		});
 	}
 	if (bots.length >= config.botLimit) clearInterval(spawnTask);
-}, config.spawnDelay);
+}
+
+spawnTask = setInterval(grabServers, config.spawnDelay);
+
 var clientIdCounter = 0;
 var bots = [];
 
@@ -182,7 +184,11 @@ function start(server, key) {
 }
 
 setInterval(function() {
-	if (Date.now() > account.token_expire) requestToken();
+	if (Date.now() > account.token_expire) {
+		for (var i in bots) bots[i].client.disconnect();
+		requestToken();
+		spawnTask = setInterval(grabServers, config.spawnDelay);
+	}
 }, 10000);
 
 setInterval(function() {
