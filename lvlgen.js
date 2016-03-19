@@ -185,7 +185,7 @@ function start(server, key) {
 
 setInterval(function() {
 	if (Date.now() > account.token_expire) {
-		for (var i in bots) bots[i].client.disconnect();
+		for (var i in bots) bots[i] && (bots[i].client.disconnect());
 		requestToken();
 		spawnTask = setInterval(grabServers, config.spawnDelay);
 	}
