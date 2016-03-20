@@ -1,3 +1,5 @@
 @echo off
-node lvlgen
-pause
+:loop
+   cls
+   node lvlgen.js
+   goto loop
