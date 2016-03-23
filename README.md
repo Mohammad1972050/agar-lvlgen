@@ -1,5 +1,11 @@
 # agar-lvlgen
 
+#### Patched
+It seems like agar.io now patched the ability that you can log in with a facebook account multiple times, sorry everybody.<br />
+I will probably make an update where just one bot plays for you, but with better AI.<br />
+I recommend setting your bot limit to 1 until the update.
+
+## Tutorial
 ###### How-To:
 1. Get your Facebook-Cookies, and put them into the config.
 2. Edit the config
