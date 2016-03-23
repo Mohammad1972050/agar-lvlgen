@@ -1,6 +1,5 @@
-
-// Made by Cr4xy
-// https://www.youtube.com/channel/UC1CJCNc6rrtjJzxiqYN97aQ
+// Made by Cr4xy - Helped by MastaCoder :)
+// https://www.youtube.com/channel/UC1CJCNc6rrtjJzxiqYN97aQ - Support Cr4xy's YouTube!
 
 var agarClient = require("agario-client")
 	config = require("./config.js"),
@@ -12,7 +11,13 @@ var agarClient = require("agario-client")
 	DefaultAi = new (require("./ai/default_ai.js")),
 	AposAi = new (require("./ai/apos_ai.js"));
 
-var VERSION = 0.92;
+var VERSION = 0.93;
+
+var currentSeconds = 0; // Starts at 0
+var accountIndex = 0; // Gives number to each token and account.
+var accountCount = 0; // Gives number of attempted accounts.
+var regionCounter = 0; // Give number to each region.
+var requestTries = 0; // Requests to get the server tokens.
 
 Array.prototype.contains = function(element) {
 	return this.indexOf(element) >= 0;
@@ -34,26 +39,32 @@ Array.prototype.remove = function(element) {
 	require("https").get('https://raw.githubusercontent.com/Cr4xy/agar-lvlgen/master/version', (res) => {
 		res.on('data', function (bytes) {
 			var fetched_version = bytes.toString();
-			
-			console.log("########################\n\nUpdate-Check\n\n");
+
+			console.log("\u001B[31m\n########################");
+			console.log("\u001B[32m    _                         _         _  ____");
+			console.log("   / \\   __ _  __ _ _ __     | | __   _| |/ ___| ___ _ __");
+			console.log("  / _ \\ / _` |/ _` | '__|____| | \\ \\ / / | |  _ / _ \\ '_ \\ ");
+			console.log(" / ___ \\ (_| | (_| | | |_____| |__\\ V /| | |_| |  __/ | | |");
+			console.log("/_/   \\_\\__, |\\__,_|_|       |_____\\_/ |_|\\____|\\___|_| |_|");
+        	console.log("	|___/ \u001B[33m- Open Source Agar.io Level Farming! \u001B[0m \n");
 			
 			if (!isNaN(fetched_version) && isFinite(fetched_version)) {
-				if (VERSION < fetched_version)
-					console.log("An update (" + fetched_version + ") is available!\nPlease update the script at https://github.com/Cr4xy/agar-lvlgen");
-				else
-					console.log("No new version available.");
+				if (VERSION < fetched_version) {
+					console.log("Running version: " + VERSION + " (New version " + fetched_version + " found, download off agar-lvlgen Github repo)");
+				} else {
+					console.log("Running version: " + VERSION + " (Latest)");
+				}
 			} else {
-				console.log("Unable to fetch new version.");
+				console.log("Running version: " + VERSION + " (Failed to fetch)");
 			}
-			
-			console.log("\n\n########################\n\n");
-			
+
+			console.log("Will reset in: " + config.reset + " minutes")
+
+			console.log("\n\u001B[31m########################\u001B[0m\n");
 		});
-		//res.resume();
 	});
 }();
 
-var regionCounter = 0;
 function getRegion() {
 	regionCounter++;
 	if (regionCounter >= regions.length) regionCounter = 0;
@@ -64,7 +75,6 @@ function getServerOptions() {
 	return {region: getRegion()};
 }
 
-var accountIndex = 0;
 function requestToken(c_user, datr, xs) {
 	account.c_user = c_user || config.accounts[accountIndex].c_user;
 	account.datr = datr || config.accounts[accountIndex].datr;
@@ -73,13 +83,19 @@ function requestToken(c_user, datr, xs) {
 	account.requestFBToken(function(token, info) {
 		if (!token) {
 			if (requestTries++ >= 5) {
-				console.log("Got no token for account " + accountIndex + " multiple times, please check your cookies.");
+				accountCount++;
+				console.log("[Account " + accountCount + "] Token Failed: Token failed after multiple tries.");
 				process.exit();
 			}
-			console.log("Got no token! Trying again... (Attempt " + requestTries + ")");
+			console.log("[Account " + accountCount + "] Token Failed: Token failed after " + requestTries + " tries, will try again.");
 			requestToken();
 		} else {
-			console.log("Got token for account " + accountIndex + ":", token);
+			accountCount++;
+			if (config.showtoken == true) {
+				console.log("[Account " + accountCount + "] Token Success: ", token);
+			} else {
+				console.log("[Account " + accountCount + "] Token Success: Token Hidden!");
+			}
 			agarClient.servers.getFFAServer(getServerOptions(), function(e) {
 				var server = e.server;
 				var key = e.key;
@@ -91,9 +107,10 @@ function requestToken(c_user, datr, xs) {
 }
 
 // Get token & server, then start
-var requestTries = 0;
 !function getTokenAndServer() {
-	requestToken();
+	setTimeout(function() {
+		requestToken();
+	}, 500);
 	accountIndex++;
 	if (accountIndex >= config.accounts.length) {
 		accountIndex = 0;
@@ -157,6 +174,16 @@ setInterval(function() {
 }, 10000);
 
 setInterval(function() {
+	currentSeconds++;
+}, 1000);
+
+if (config.reset > 0) {
+	setTimeout(function() {
+		process.exit();
+	}, config.reset * 1000);
+}
+
+setInterval(function() {
 	var totalScore = 0;
 	var spawnedCount = 0;
 	var highestScore = 0;
@@ -167,5 +194,7 @@ setInterval(function() {
 	debugObj.totalScore = totalScore;
 	debugObj.avgScore = avgScore;
 	debugObj.highest = highestScore;
+	debugObj.time = currentSeconds;
+	console.log(" ");
 	console.log(debugObj);
 }, config.statusDelay);
