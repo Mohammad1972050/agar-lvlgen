@@ -39,7 +39,8 @@ module.exports = {
 	ai: "default"
 }
 ```
-In order to make it work you only need to replace ```c_user```, ```datr``` and ```xs``` with your cookies. You can also have multiple accounts:
+In order to make it work you only need to replace ```c_user```, ```datr``` and ```xs``` with your cookies.<br />
+You can also have multiple accounts:
 ```
 	accounts: [
 		{
