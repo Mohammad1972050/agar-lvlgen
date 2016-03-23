@@ -1,10 +1,5 @@
 # agar-lvlgen
 
-#### Patched
-It seems like agar.io now patched the ability that you can log in with a facebook account multiple times, sorry everybody.<br />
-I will probably make an update where just one bot plays for you, but with better AI.<br />
-I recommend setting your bot limit to 1 until the update.
-
 ## Tutorial
 ###### How-To:
 1. Get your Facebook-Cookies, and put them into the config.
@@ -20,22 +15,45 @@ When you first downloaded the lvlgen, your config should look something like thi
 ```
 module.exports = {
 	// Required
-	c_user: "c_user",
-	datr: "datr",
-	xs: "xs",
 	
-	// Optional
+	accounts: [
+		{
+			c_user: "c_user",
+			datr: "datr",
+			xs: "xs"
+		}
+	],
+	
 	name: "agar-lvlgen",
 	
 	// Advanced
-	botLimit: 200,
-	spawnDelay: 100,
-	servers: {ffa: true, teams: false, experimental: true, party: true},
 	regions: ["BR-Brazil", "CN-China", "EU-London", "JP-Tokyo", "RU-Russia", "SG-Singapore", "TK-Turkey", "US-Atlanta"],
-	statusDelay: 1000
+	statusDelay: 1000,
+	
+	/* Possible values:
+	 *
+	 * default: Primitive "AI", low cpu usage
+	 * apos: Smart AI, higher cpu usage (still buggy)
+	 * 
+	*/
+	ai: "default"
 }
 ```
-In order to make it work you only need to replace ```c_user```, ```datr``` and ```xs``` with your cookies.
+In order to make it work you only need to replace ```c_user```, ```datr``` and ```xs``` with your cookies. You can also have multiple accounts:
+```
+	accounts: [
+		{
+			c_user: "c_user",
+			datr: "datr",
+			xs: "xs"
+		},
+		{
+			c_user: "c_user",
+			datr: "datr",
+			xs: "xs"
+		}
+	],
+```
 All other options are optional.
 
 ## Cookies
