@@ -36,7 +36,7 @@ Array.prototype.remove = function(element) {
 
 // Check for updates
 !function() {
-	require("https").get('https://raw.githubusercontent.com/Cr4xy/agar-lvlgen/master/version', (res) => {
+	require("https").get('https://raw.githubusercontent.com/Cr4xy/agar-lvlgen/master/version', function(res) {
 		res.on('data', function (bytes) {
 			var fetched_version = bytes.toString();
 
