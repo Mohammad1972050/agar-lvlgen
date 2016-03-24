@@ -91,7 +91,7 @@ function requestToken(c_user, datr, xs) {
 			requestToken();
 		} else {
 			accountCount++;
-			if (config.showtoken == true) {
+			if (config.showtoken) {
 				console.log("[Account " + accountCount + "] Token Success: ", token);
 			} else {
 				console.log("[Account " + accountCount + "] Token Success: Token Hidden!");
@@ -180,7 +180,7 @@ setInterval(function() {
 if (config.reset > 0) {
 	setTimeout(function() {
 		process.exit();
-	}, config.reset * 1000);
+	}, config.reset * 1000 * 60);
 }
 
 setInterval(function() {
