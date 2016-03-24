@@ -3,6 +3,5 @@ clear
 while true; do
   clear
   node lvlgen.js
-  echo Server went off, waiting ten sec then restarting it...
-  sleep 10
+  sleep 2
 done
