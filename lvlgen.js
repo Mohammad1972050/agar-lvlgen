@@ -189,7 +189,7 @@ setTimeout(function() {
 	// Live console developed by MastaCoder!
 	if (config.liveConsole == true) {
 		console.log("\u001B[33mLive Console: \u001B[0m");
-		console.log("------------------------------------------------------------------")
+		console.log("---------------------------------------------------------------------")
 	}
 }, config.statusDelay - 0.001);
 
