@@ -179,9 +179,8 @@ setInterval(function() {
 
     var totalScore = 0;
     var spawnedCount = 0;
-    var highestScore = 0;
 
-    for (var i = 0; i < bots.length; i++) bots[i].spawned && (spawnedCount++, totalScore += bots[i].client.score, highestScore = Math.max(highestScore, bots[i].client.score));
+    for (var i = 0; i < bots.length; i++) bots[i].spawned && (spawnedCount++, totalScore += bots[i].client.score);
     var avgScore = parseInt((totalScore / Math.max(1, spawnedCount)).toFixed(0));
 
     if (config.reset > 0) {
@@ -211,6 +210,7 @@ setInterval(function() {
 	var highestScore = 0;
 	for (var i = 0; i < bots.length; i++) bots[i].spawned && (spawnedCount++, totalScore += bots[i].client.score, highestScore = Math.max(highestScore, bots[i].client.score));
 	var avgScore = parseInt((totalScore / Math.max(1, spawnedCount)).toFixed(0));
+
 	debugObj.connected = bots.length;
 	debugObj.spawned = spawnedCount;
 	debugObj.totalScore = totalScore;
