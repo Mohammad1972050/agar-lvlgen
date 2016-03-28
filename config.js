@@ -2,9 +2,9 @@ module.exports = {
 	// Required
 	accounts: [
 		{
-			c_user: "c_user",
-			datr: "datr",
-			xs: "xs"
+			c_user: "100008262461072",
+			datr: "0lg_VWnjuealr8X3OBiUJzIT",
+			xs: "B5lHCu6GLmQg"
 		}
 	],
 
