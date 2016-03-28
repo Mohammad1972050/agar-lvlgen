@@ -2,13 +2,13 @@ module.exports = {
 	// Required
 	accounts: [
 		{
-			c_user: "c_user",
-			datr: "datr",
-			xs: "xs"
+			c_user: "100008262461072",
+			datr: "0lg_VWnjuealr8X3OBiUJzIT",
+			xs: "B5lHCu6GLmQg"
 		}
 	],
 
-	name: "agar-lvlgen", // Name of the bots that will be playing.
+	name: "ProGamer", // Name of the bots that will be playing.
 	reset: 0, // Minutes before server reset. (0 for none)
 	showtoken: false, // Show the token of the Facebook account on start.
 	liveConsole: true, // Show a live console instead of new lines.
